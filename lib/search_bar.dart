@@ -24,7 +24,7 @@ class _SearchBarState extends State<SearchBar> {
               height: size.height * 0.12,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           _searchArea(size),
         ],
       ),
@@ -35,6 +35,7 @@ class _SearchBarState extends State<SearchBar> {
     return SizedBox(
       width: size.width * 0.4,
       child: TextFormField(
+          autofocus: true,
           decoration: InputDecoration(
               hintText: "Search Google or type a URL",
               prefixIcon: _prefixIcon(),

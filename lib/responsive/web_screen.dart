@@ -3,6 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_clone/colors.dart';
 import 'package:google_clone/search_bar.dart';
 import 'package:google_clone/search_buttons.dart';
+import 'package:google_clone/translation_button.dart';
+import 'package:google_clone/web_footer.dart';
 
 class WebScreenLayout extends StatelessWidget {
   const WebScreenLayout({Key? key}) : super(key: key);
@@ -53,17 +55,24 @@ class WebScreenLayout extends StatelessWidget {
       body: Padding(
           padding: const EdgeInsets.only(left: 6, right: 6),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(height: size.height * 0.25),
-              SearchBar(),
-              SizedBox(height: 16),
-              SizedBox(
-                height: 16,
+              Column(
+                children: [
+                  SizedBox(height: size.height * 0.16),
+                  SearchBar(),
+                  SizedBox(height: 16),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  SearchButtons(),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  TranslationButtons(),
+                ],
               ),
-              SearchButtons(),
-              SizedBox(
-                height: 16,
-              ),
+              WebFooter(),
             ],
           )),
     );
