@@ -47,19 +47,17 @@ class _SearchBarState extends State<SearchBar> {
 
   Widget _prefixIcon() {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(16),
       child: SvgPicture.asset(
         "assets/images/search-icon.svg",
         color: searchBorder,
-        width: 1,
-        height: 1,
       ),
     );
   }
 
   Widget _suffixIcon() {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(16),
       child: SvgPicture.asset("assets/images/mic-icon.svg"),
     );
   }
