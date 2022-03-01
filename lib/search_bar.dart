@@ -21,7 +21,7 @@ class _SearchBarState extends State<SearchBar> {
           Center(
             child: Image.asset(
               "assets/images/google-logo.png",
-              height: size.height * 0.12,
+              height: size.height * 0.11,
             ),
           ),
           const SizedBox(height: 20),
@@ -32,7 +32,7 @@ class _SearchBarState extends State<SearchBar> {
   }
 
   Widget _searchArea(Size size) {
-    return SizedBox(
+   return SizedBox(
       width: size.width * 0.4,
       child: TextFormField(
           autofocus: true,
@@ -40,9 +40,12 @@ class _SearchBarState extends State<SearchBar> {
               hintText: "Search Google or type a URL",
               prefixIcon: _prefixIcon(),
               suffixIcon: _suffixIcon(),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: searchBorder),
+                  borderRadius: BorderRadius.all(Radius.circular(30))),
               border: OutlineInputBorder(
                   borderSide: BorderSide(color: searchBorder),
-                  borderRadius: BorderRadius.all(Radius.circular(30))))),
+                   borderRadius: BorderRadius.all(Radius.circular(30))))),
     );
   }
 
