@@ -38,6 +38,7 @@ class ResultList extends StatelessWidget {
             ),
             onTap: () async {
               if (await canLaunch(linkToGo)) {
+                print("hello");
                 await launch(linkToGo);
               }
             },
@@ -51,6 +52,7 @@ class ResultList extends StatelessWidget {
             color: primaryColor,
           ),
         ),
+        const SizedBox(height: 10)
       ],
     );
   }
