@@ -21,6 +21,8 @@ class MyApp extends StatelessWidget {
         // home: ResponsiveLayout(
         //     mobileScreenLayout: MobileScreenLayout(),
         //     webScreenLayout: WebScreenLayout()));
-        home: SearchScreen());
+        home: SearchScreen(
+          searchQuery: "Mridul",
+        ));
   }
 }

@@ -1,96 +1,164 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_clone/colors.dart';
-import 'package:google_clone/search_bar.dart';
+import 'package:google_clone/result_list.dart';
+import 'package:google_clone/search_header.dart';
+import 'package:google_clone/search_tabs.dart';
+import 'package:google_clone/services/api_services.dart';
 
 class SearchScreen extends StatelessWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  final String searchQuery;
+  final String start;
+  const SearchScreen({Key? key, required this.searchQuery, this.start = '0'})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            searchHeader(size),
-          ],
+
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Title(
+        // for the title of the website
+        color: Colors.blue, // This is required
+        title: searchQuery,
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // for the header part of the website showing search text field
+                const WebSearchHeader(),
+                // for showing ALL, IMAGES, MAPS etc tabs
+                Padding(
+                  padding:
+                      EdgeInsets.only(left: size.width <= 768 ? 10 : 150.0),
+                  child: const SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: SearchTabs(),
+                  ),
+                ),
+                const Divider(
+                  height: 0,
+                  thickness: 0,
+                ),
+                // showing search results
+                FutureBuilder<Map<String, dynamic>>(
+                  future: ApiService()
+                      .fetchData(queryTerm: searchQuery, start: start),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      //
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // showing the time it took to fetch results
+                          Container(
+                            padding: EdgeInsets.only(
+                                left: size.width <= 768 ? 10 : 150, top: 12),
+                            child: Text(
+                              "About ${snapshot.data?['searchInformation']['formattedTotalResults']} results (${snapshot.data?['searchInformation']['formattedSearchTime']} seconds)",
+                              style: const TextStyle(
+                                fontSize: 15,
+                                color: Color(0xFF70757a),
+                              ),
+                            ),
+                          ),
+                          // displaying the results
+                          ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: snapshot.data?['items'].length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    left: size.width <= 768 ? 10 : 150,
+                                    top: 10),
+                                child: ResultList(
+                                  linkToGo: snapshot.data?['items'][index]
+                                      ['link'],
+                                  link: snapshot.data?['items'][index]
+                                      ['formattedUrl'],
+                                  text: snapshot.data?['items'][index]['title'],
+                                  description: snapshot.data?['items'][index]
+                                      ['snippet'],
+                                ),
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 30),
+                          // pagination
+                          SizedBox(
+                            width: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                    child: const Text(
+                                      "< Prev",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: blueColor,
+                                      ),
+                                    ),
+                                    // if start is 0, we are on the first page
+                                    onPressed: start != "0"
+                                        ? () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SearchScreen(
+                                                  searchQuery: searchQuery,
+                                                  start: (int.parse(start) - 10)
+                                                      .toString(),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        : () {}),
+                                const SizedBox(width: 30),
+                                TextButton(
+                                  child: const Text(
+                                    "Next >",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: blueColor,
+                                    ),
+                                  ),
+                                  // if start is 0, we are on the first page
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SearchScreen(
+                                          searchQuery: searchQuery,
+                                          start: (int.parse(start) + 10)
+                                              .toString(),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
         ),
-      ),
-    );
-  }
-
-  Widget searchHeader(Size size) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
-      child: Row(
-        children: [
-          _getLogo(),
-          const SizedBox(width: 40),
-          _searchBar(size),
-        ],
-      ),
-    );
-  }
-
-  Widget _getLogo() {
-    return Image.asset("assets/images/google-logo.png", height: 32, width: 94);
-  }
-
-  Widget _searchBar(Size size) {
-    return Container(
-      width: size.width * 0.4,
-      child: TextFormField(
-          decoration: InputDecoration(
-              suffixIcon: _suffixIcon(),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: searchBorder),
-                  borderRadius: BorderRadius.all(Radius.circular(30))),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: searchBorder),
-                  borderRadius: BorderRadius.all(Radius.circular(30))))),
-    );
-  }
-
-  Widget _suffixIcon() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        _clearIcon(),
-        _micIcon(),
-        _searchIcon(),
-      ],
-    );
-  }
-
-  Widget _clearIcon() {
-    return Container(
-        padding: const EdgeInsets.only(bottom: 8),
-        child: InkWell(
-            onTap: () {
-              print("cancel");
-            },
-            child: Icon(Icons.cancel_rounded)));
-  }
-
-  Widget _searchIcon() {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 8, right: 12),
-      child: SvgPicture.asset(
-        "assets/images/search-icon.svg",
-        color: blueColor,
-      ),
-    );
-  }
-
-  Widget _micIcon() {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 8, right: 12, left: 12),
-      child: SvgPicture.asset(
-        "assets/images/mic-icon.svg",
       ),
     );
   }
