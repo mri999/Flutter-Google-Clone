@@ -11,6 +11,8 @@ class SearchBar extends StatefulWidget {
 }
 
 class _SearchBarState extends State<SearchBar> {
+  final query = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -27,6 +29,10 @@ class _SearchBarState extends State<SearchBar> {
           ),
           const SizedBox(height: 20),
           _searchArea(size),
+          SizedBox(
+            height: 24,
+          ),
+          _searchButtons(),
         ],
       ),
     );
@@ -36,10 +42,9 @@ class _SearchBarState extends State<SearchBar> {
     return SizedBox(
       width: size.width * 0.4,
       child: TextFormField(
+          controller: query,
           onFieldSubmitted: (query) {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) =>
-                    SearchScreen(searchQuery: query, start: '0')));
+            _search();
           },
           autofocus: true,
           decoration: InputDecoration(
@@ -70,5 +75,38 @@ class _SearchBarState extends State<SearchBar> {
       padding: const EdgeInsets.all(16),
       child: SvgPicture.asset("assets/images/mic-icon.svg"),
     );
+  }
+
+  Widget _searchButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _button("Google Search", _search),
+        const SizedBox(width: 12),
+        _button("I'm feeling lucky", () {})
+      ],
+    );
+  }
+
+  Widget _button(String text, Function cb) {
+    return MaterialButton(
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 18),
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4))),
+        color: searchColor,
+        onPressed: () {
+          cb();
+        },
+        child: Text(
+          text,
+          style: TextStyle(color: primaryColor),
+        ));
+  }
+
+  void _search() {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) =>
+            SearchScreen(searchQuery: query.text, start: '0')));
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_clone/colors.dart';
 import 'package:google_clone/search_bar.dart';
-import 'package:google_clone/search_buttons.dart';
 import 'package:google_clone/translation_button.dart';
 import 'package:google_clone/web_footer.dart';
 
@@ -62,10 +61,6 @@ class WebScreenLayout extends StatelessWidget {
                   SizedBox(height: size.height * 0.16),
                   SearchBar(),
                   SizedBox(height: 16),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  SearchButtons(),
                   SizedBox(
                     height: 24,
                   ),
