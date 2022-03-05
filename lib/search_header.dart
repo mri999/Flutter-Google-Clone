@@ -11,7 +11,7 @@ class WebSearchHeader extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Padding(
-      padding: const EdgeInsets.only(top: 25.0),
+      padding: const EdgeInsets.only(top: 24.0),
       child: Row(
         children: [
           Padding(
@@ -22,9 +22,9 @@ class WebSearchHeader extends StatelessWidget {
               width: 92,
             ),
           ),
-          const SizedBox(width: 27),
+          const SizedBox(width: 24),
           Container(
-            width: size.width * 0.45,
+            width: size.width * 0.4,
             decoration: BoxDecoration(
               color: searchColor,
               borderRadius: BorderRadius.circular(22),
@@ -39,6 +39,7 @@ class WebSearchHeader extends StatelessWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => SearchScreen(
+                        start: '0',
                         searchQuery: text.trim(),
                       ),
                     ),
@@ -48,10 +49,10 @@ class WebSearchHeader extends StatelessWidget {
               style: const TextStyle(fontSize: 16),
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                 suffixIcon: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Container(
-                    constraints: const BoxConstraints(maxWidth: 150),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       mainAxisSize: MainAxisSize.min,

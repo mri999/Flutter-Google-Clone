@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_clone/colors.dart';
+import 'package:google_clone/search_screen.dart';
 
 class SearchBar extends StatefulWidget {
   const SearchBar({Key? key}) : super(key: key);
@@ -32,9 +33,14 @@ class _SearchBarState extends State<SearchBar> {
   }
 
   Widget _searchArea(Size size) {
-   return SizedBox(
+    return SizedBox(
       width: size.width * 0.4,
       child: TextFormField(
+          onFieldSubmitted: (query) {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    SearchScreen(searchQuery: query, start: '0')));
+          },
           autofocus: true,
           decoration: InputDecoration(
               hintText: "Search Google or type a URL",
@@ -45,7 +51,7 @@ class _SearchBarState extends State<SearchBar> {
                   borderRadius: BorderRadius.all(Radius.circular(30))),
               border: OutlineInputBorder(
                   borderSide: BorderSide(color: searchBorder),
-                   borderRadius: BorderRadius.all(Radius.circular(30))))),
+                  borderRadius: BorderRadius.all(Radius.circular(30))))),
     );
   }
 

@@ -18,11 +18,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme:
             ThemeData.dark().copyWith(scaffoldBackgroundColor: backgroundColor),
-        // home: ResponsiveLayout(
-        //     mobileScreenLayout: MobileScreenLayout(),
-        //     webScreenLayout: WebScreenLayout()));
-        home: SearchScreen(
-          searchQuery: "Mridul",
-        ));
+        home: ResponsiveLayout(
+            mobileScreenLayout: MobileScreenLayout(),
+            webScreenLayout: WebScreenLayout()));
   }
 }
