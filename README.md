@@ -1,16 +1,9 @@
 # google_clone
 
-A new Flutter project.
 
 ## Getting Started
+<img width="1440" alt="Screenshot 2022-03-05 at 8 10 19 PM" src="https://user-images.githubusercontent.com/38829097/156888058-95b413c1-0e7a-4b6a-83e2-fa4f8a47b9de.png">
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+<img width="1440" alt="Screenshot 2022-03-05 at 8 10 35 PM" src="https://user-images.githubusercontent.com/38829097/156888053-1f0c7089-f2d2-42f5-b453-3e824aaa46a1.png">
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
